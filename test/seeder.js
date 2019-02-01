@@ -8,36 +8,36 @@ const client = require('../config/connection')
 
 chai.use(chaiHttp);
 
-  describe('/DROP SISWA', () => {
-    it('Migrate Table and index table userAccount', (done) => {
-      client.execute('DROP TABLE siswa')
-      .then(success => {
-          chai.request(server)
-              .post('/migration/siswa')
-              .end((err, res) => {
-                  res.should.have.status(200);
-                  res.body.should.be.a('object');
-                  res.body.should.have.property('success');
-                  res.body.should.have.property('success').eql(true);
-                  res.body.should.have.property('msg');
-                  chai.request(server)
-                  .post('/migration/siswa-index')
-                  .end((err, res) => {
-                    res.should.have.status(200);
-                    res.body.should.be.a('object');
-                    res.body.should.have.property('success');
-                    res.body.should.have.property('success').eql(true);
-                    res.body.should.have.property('msg');
-                    done()
-                  });
-          });
-      })
-      .catch(err => {
-          should.throw()
-          done()
-      });
-    });
-  });
+//   describe('/DROP SISWA', () => {
+//     it('Migrate Table and index table userAccount', (done) => {
+//       client.execute('DROP TABLE siswa')
+//       .then(success => {
+//           chai.request(server)
+//               .post('/migration/siswa')
+//               .end((err, res) => {
+//                   res.should.have.status(200);
+//                   res.body.should.be.a('object');
+//                   res.body.should.have.property('success');
+//                   res.body.should.have.property('success').eql(true);
+//                   res.body.should.have.property('msg');
+//                   chai.request(server)
+//                   .post('/migration/siswa-index')
+//                   .end((err, res) => {
+//                     res.should.have.status(200);
+//                     res.body.should.be.a('object');
+//                     res.body.should.have.property('success');
+//                     res.body.should.have.property('success').eql(true);
+//                     res.body.should.have.property('msg');
+//                     done()
+//                   });
+//           });
+//       })
+//       .catch(err => {
+//           should.throw()
+//           done()
+//       });
+//     });
+//   });
 
 describe('/STORE', () => {
     it('CREATE Siswa', (done) => {

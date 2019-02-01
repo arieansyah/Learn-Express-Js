@@ -12,3 +12,10 @@
 5. run project ```$ npm run dev```
 6. create keyspace cassandra
 7. migrate database
+
+### Terserah Dia lah pokoknya
+1. Simple CRUD with async await
+2. Unit Testing chai and mocha js
+    => on folder > test
+3. Pagination With Cassandra DB
+    => on URL = {{ url }}/siswa/data?npp=10&page=1
