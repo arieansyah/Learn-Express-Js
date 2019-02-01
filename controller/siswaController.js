@@ -13,7 +13,6 @@ async function createSiswa(req, res) {
       .then(validate => {
           result.success = true
           result.msg = "berhasil"
-          result.hasil = validate
           res.json(result)
       }).catch(err => {
         result.success = true
@@ -26,9 +25,14 @@ async function createSiswa(req, res) {
 
 module.exports.createSiswa = createSiswa;
 
-async function getData(){
+async function getData(limit){
   let globalData = {}
-  let listData = 'SELECT * FROM siswa ALLOW FILTERING'
+  let listData
+  if (limit == '') {
+    listData = 'SELECT * FROM siswa'
+  }else{
+    listData = 'SELECT * FROM siswa LIMIT '+limit
+  }
   let siswaRequest = await client.execute(listData, {prepare:true})
   globalData = siswaRequest.rows
   return globalData
@@ -38,16 +42,45 @@ async function dataSiswa(req, res){
   let result = {
     success : false
   }
+  
+  let numRows;
+  let numPerPage = parseInt(req.query.npp, 10) || 1;
+  let page = parseInt(req.query.page, 10) || 0;
 
-  getData()
-  .then(validate => {
+  let numPages;
+  let skip = page * numPerPage;
+  // Here we compute the LIMIT parameter for MySQL query
+  let limit = skip;
+  getData('')
+  .then(function(results) {
     result.success = true
-    //result.msg = "berhasil"
-    result.siswaRequest = validate
-    res.json(result)
-  }).catch(err => {
-    console.log(err);
+    numRows = results.length;
+    numPages = Math.ceil(numRows / numPerPage);
+    //console.log('number of pages:', numPages);
   })
+  .then(() => getData(limit))
+  .then(function(results) {
+    result = {
+      success: true,
+      results: results
+    };
+    if (page <= numPages) {
+      result.pagination = {
+        current: page,
+        perPage: numPerPage,
+        previous: page > 0 ? page - 1 : undefined,
+        next: page < numPages - 1 ? page + 1 : undefined
+      }
+    }
+    else result.pagination = {
+      err: 'queried page ' + page + ' is >= to maximum page number ' + numPages
+    }
+    res.json(result);
+  })
+  .catch(function(err) {
+    console.error(err);
+    res.json(result);
+  });
 }
 
 module.exports.dataSiswa = dataSiswa;
@@ -70,7 +103,6 @@ async function updateData(req, res) {
       res.json(result)
     }).catch(err => {
       console.log(err);
-      
     })
   }else {
     result.msg = 'param must required'
