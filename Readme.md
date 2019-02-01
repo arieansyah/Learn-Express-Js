@@ -16,8 +16,8 @@
 ### Terserah Dia lah pokoknya
 1. Simple CRUD with async await
 2. Unit Testing chai and mocha js <br>
-    => on folder > test
-    => unComment > npm test
+    => on folder > test <br>
+    => unComment > npm test <br>
     - except seeder.js is for generate many data on one process
 3. Pagination With Cassandra DB <br>
     => on URL = {{ url }}/siswa/data?npp=10&page=1
