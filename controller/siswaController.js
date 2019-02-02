@@ -89,15 +89,14 @@ async function mantapSiswa(req, res){
   let result = {
     success : false
   }
-  getData('')
+  let numPerPage = parseInt(req.query.npp, 10) || 1;
+  let page = parseInt(req.query.page, 10) || 0;
+
+  let limit = page * numPerPage;
+
+  getData(limit)
   .then(function (hasil) {
-    result = hasil
-    res.json(result)
-  })
-  .then(() => getData(''))
-  .then(function (params) {
-    console.log(params);
-    
+    res.json(hasil)
   })
   .catch(function (err) {
     console.log(err);
