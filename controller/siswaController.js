@@ -48,16 +48,16 @@ async function dataSiswa(req, res){
   let page = parseInt(req.query.page, 10) || 0;
 
   let numPages;
-  let skip = page * numPerPage;
-  // Here we compute the LIMIT parameter for MySQL query
-  let limit = skip;
+  let limit = page * numPerPage;
+  
+  //query first for get count all data on db
   getData('')
   .then(function(results) {
-    result.success = true
     numRows = results.length;
     numPages = Math.ceil(numRows / numPerPage);
     //console.log('number of pages:', numPages);
   })
+  //query second for get data with limit
   .then(() => getData(limit))
   .then(function(results) {
     result = {
@@ -84,6 +84,28 @@ async function dataSiswa(req, res){
 }
 
 module.exports.dataSiswa = dataSiswa;
+
+async function mantapSiswa(req, res){
+  let result = {
+    success : false
+  }
+  getData('')
+  .then(function (hasil) {
+    result = hasil
+    res.json(result)
+  })
+  .then(() => getData(''))
+  .then(function (params) {
+    console.log(params);
+    
+  })
+  .catch(function (err) {
+    console.log(err);
+    
+  })
+}
+
+module.exports.mantapSiswa = mantapSiswa;
 
 async function updateData(req, res) {
   let result = {
