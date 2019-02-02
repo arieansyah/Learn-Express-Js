@@ -96,7 +96,10 @@ async function mantapSiswa(req, res){
 
   getData(limit)
   .then(function (hasil) {
-    res.json(hasil)
+    result = hasil.sort(function(a,b){
+      return a.umur - b.umur
+    })
+    res.json(result)
   })
   .catch(function (err) {
     console.log(err);
