@@ -21,3 +21,4 @@
     - except seeder.js is for generate many data on one process
 3. Pagination With Cassandra DB <br>
     => on URL = {{ url }}/siswa/data?npp=10&page=1
+4. Add Alter Table
