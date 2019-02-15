@@ -94,11 +94,13 @@ async function mantapSiswa(req, res){
 
   let limit = page * numPerPage;
 
-  getData(limit)
+  getData('')
   .then(function (hasil) {
-    result = hasil.sort(function(a,b){
-      return a.umur - b.umur
-    })
+    // result = hasil.sort(function(a,b){
+    //   return a.umur - b.umur
+    // })
+    result = hasil
+    //result.extra = hasil
     res.json(result)
   })
   .catch(function (err) {
@@ -108,6 +110,52 @@ async function mantapSiswa(req, res){
 }
 
 module.exports.mantapSiswa = mantapSiswa;
+
+function toJson(args) {
+  return JSON.parse(args)
+}
+
+async function mainArray(req, res){
+  let result = {
+    success : false
+  }
+
+  listDataoke = 'SELECT * FROM siswa'
+  dataoke = await client.execute(listDataoke, {prepare:true})
+  let siap = []
+  for (let index = 0; index < 5; index++) {
+    siap.push(dataoke.rows[index])
+  }
+
+  listData = 'SELECT * FROM siswa'
+  await client.execute(listData, {prepare:true})
+  .then(function (hasil) {
+    result.success = "true"
+    result = hasil.rows[0]
+    // let apasih = {}
+    // let bangke = {}
+
+    //apasih.push(hasil.rows[0])
+    //bangke = apasih.push(hasil.rows[0,1,2])
+    
+    // for (let index = 0; index < 5; index++) {
+    //   apasih.push(hasil.rows[index]) 
+    // }
+    // result.data = apasih
+    //console.log(siap);
+    
+    result.data = siap
+
+    //result.extra = hasil
+    res.json(result)
+  })
+  .catch(function (err) {
+    console.log(err);
+    
+  })
+}
+
+module.exports.mainArray = mainArray;
 
 async function updateData(req, res) {
   let result = {
