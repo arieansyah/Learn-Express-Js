@@ -131,18 +131,20 @@ async function mainArray(req, res){
   await client.execute(listData, {prepare:true})
   .then(function (hasil) {
     result.success = "true"
-    result = hasil.rows[0]
-    // let apasih = {}
+    //result = hasil.rows[0]
+    let apasih = []
     // let bangke = {}
 
     //apasih.push(hasil.rows[0])
     //bangke = apasih.push(hasil.rows[0,1,2])
     
-    // for (let index = 0; index < 5; index++) {
-    //   apasih.push(hasil.rows[index]) 
-    // }
+    for (let index = 0; index < 5; index++) {
+      apasih.push(hasil.rows[index]) 
+    }
+    siap.push(apasih)
     // result.data = apasih
     //console.log(siap);
+    console.log(siap[2][0]);
     
     result.data = siap
 
