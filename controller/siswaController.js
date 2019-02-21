@@ -123,8 +123,8 @@ async function mainArray(req, res){
   listDataoke = 'SELECT * FROM siswa'
   dataoke = await client.execute(listDataoke, {prepare:true})
   let siap = []
-  for (let index = 0; index < 5; index++) {
-    siap.push(dataoke.rows[index])
+  for (let index = 0; index < 2; index++) {
+    siap.push(dataoke.rows[index].id)
   }
 
   listData = 'SELECT * FROM siswa'
@@ -156,6 +156,45 @@ async function mainArray(req, res){
 }
 
 module.exports.mainArray = mainArray;
+
+async function mainArrayBerkelipatan(req, res){
+  let result = {
+    success : false
+  }
+
+  let listData = 'SELECT id,nama FROM siswa limit 2'
+  await client.execute(listData, {prepare:true})
+  .then(function (hasil) {
+    let iya = hasil.rows
+    let listDataoke = 'SELECT * FROM siswa limit 3'
+    client.execute(listDataoke, {prepare:true})
+    .then(_hasil => {
+      let data = iya.map(siapp=>{
+        let _oke = siapp
+        _oke.siap = _hasil.rows.map(siap=>{
+          return siap
+        })
+        _oke.yup = _hasil.rows.map(siapx=>{
+          return siapx
+        })
+        return _oke
+      })
+      result.data = data.map(okex => {
+        return okex
+      })
+      //console.log(result.data[1].siap[1]);
+      res.json(result)
+      
+    }).catch(function (err) {
+      console.log(err); 
+    })
+  })
+  .catch(function (err) {
+    console.log(err);
+  })
+}
+
+module.exports.mainArrayBerkelipatan = mainArrayBerkelipatan;
 
 async function updateData(req, res) {
   let result = {
