@@ -180,7 +180,13 @@ async function mainArrayBerkelipatan(req, res){
         return _oke
       })
       result.data = data.map(okex => {
-        return okex
+        let bangke = okex
+        bangke.bro = "hak"
+        bangke.kos = [
+          ["putih","merah","hitam"],
+          ["hijau","abu abu","biru"],
+        ]
+        return bangke
       })
       //console.log(result.data[1].siap[1]);
       res.json(result)
